@@ -1,6 +1,6 @@
 // Require the framework and instantiate it
 const fastify = require('fastify')({ logger: true })
-const path = require('path') 
+
 
 //Plugin Register for assets
 fastify.register(require('fastify-static'), require('./config/static').public)
