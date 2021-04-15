@@ -3,21 +3,10 @@ const fastify = require('fastify')({ logger: true })
 const path = require('path') 
 
 //Plugin Register for assets
-fastify.register(require('fastify-static'), {
-  root: path.join(__dirname, 'public'),
-  prefix: '/', 
-})
-fastify.register(require('fastify-static'), {
-  root: path.join(__dirname, 'public/assets'),
-  prefix: '/assets', 
-  decorateReply: false,
-})
-//Plugin Register for forms
-fastify.register(require('fastify-static'), {
-  root: path.join(__dirname, 'public/forms'),
-  prefix: '/forms', 
-  decorateReply: false,
-})
+fastify.register(require('fastify-static'), require('./config/static').public)
+fastify.register(require('fastify-static'), require('./config/static').assets)
+fastify.register(require('fastify-static'), require('./config/static').forms)
+
 
 //Get HTML
 fastify.get('/', async (request, reply) => {
