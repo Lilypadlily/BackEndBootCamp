@@ -1,27 +1,31 @@
 // Require the framework and instantiate it
 const fastify = require('fastify')({ logger: true })
-const path = require('path') //modul bawaan node js gak usah diinstall
+const path = require('path') 
 
 //Plugin Register for assets
 fastify.register(require('fastify-static'), {
+  root: path.join(__dirname, 'public'),
+  prefix: '/', 
+})
+fastify.register(require('fastify-static'), {
   root: path.join(__dirname, 'public/assets'),
-  prefix: '/public/assets', 
+  prefix: '/assets', 
   decorateReply: false,
 })
 //Plugin Register for forms
 fastify.register(require('fastify-static'), {
   root: path.join(__dirname, 'public/forms'),
-  prefix: '/public/forms', 
+  prefix: '/forms', 
   decorateReply: false,
 })
 
 //Get HTML
 fastify.get('/', async (request, reply) => {
-  return reply.sendFile('public/index.html')
+  reply.sendFile('index.html') // serving path.join(__dirname, 'public', 'myHtml.html') directly
 })
 
 // Declare a route
-fastify.get('/', async (request, reply) => {
+fastify.get('/test', async (request, reply) => {
   return { Hallo: 'Segye' }
 })
 
