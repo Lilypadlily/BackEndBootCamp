@@ -25,5 +25,7 @@
       ".gitignore",
       "package*.json"
     ]
-  }
+  },
+  "engines": {
+    "node": "14.16.1" }
 }
