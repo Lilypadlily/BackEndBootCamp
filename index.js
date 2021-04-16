@@ -7,10 +7,15 @@ fastify.register(require('fastify-static'), require('./config/static').public)
 fastify.register(require('fastify-static'), require('./config/static').assets)
 fastify.register(require('fastify-static'), require('./config/static').forms)
 
+fastify.register(require('point-of-view'),{
+  engine:{
+  handlebars: require('handlebars')
+  }
+})
 
 //Get HTML
 fastify.get('/', async (request, reply) => {
-  reply.sendFile('index.html') // serving path.join(__dirname, 'public', 'myHtml.html') directly
+  reply.view('./templates/index.html',{ data : 'Iftika'}) // serving path.join(__dirname, 'public', 'myHtml.html') directly
 })
 
 // Declare a route
