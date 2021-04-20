@@ -6,9 +6,9 @@ async function routes (fastify, options) {
     })
   
     fastify.get('/', async (request, reply) => {
-        reply.view('./templates/index.html',{ data : 'Iftika'}) // serving path.join(__dirname, 'public', 'myHtml.html') directly
+       reply.sendFile('index.html') // serving path.join(__dirname, 'public', 'myHtml.html') directly
       })
-  
+    
   }
   
   module.exports = routes
