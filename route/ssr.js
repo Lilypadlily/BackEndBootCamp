@@ -1,15 +1,23 @@
-async function routes (fastify, options) {
-    fastify.get('/portfolio.html', (request, reply) => {
-       reply.view('/public/portfolio.ejs',{ 
-           desc :
-        'Ada teks disini' ,
-        classes :
-        [
-             {data_filter: '.filter-app',name :'App'},
-             {data_filter: '.filter-card',name :'Card'},
-             {data_filter: '.filter-web',name :'Web'},
-        ],
-        })
-      })
-  }
-  module.exports = routes
+const data = require("../data/portfolio.json");
+
+async function routes(fastify, options) {
+  fastify.get("/portfolio.html", async (request, reply) => {
+    const { rows } = await fastify.pg.query("SELECT * FROM profiles;", []);
+
+    reply.view("/public/portfolio.ejs", {
+      ...data,
+      items: rows.map((row) => {
+        return {
+          filter: row.fltr,
+          imgSrc: row.imgsrc,
+          title: row.title,
+          summary: row.summary,
+          galleryHref: row.galleryhref,
+          galleryTitle: row.gallerytitle,
+        };
+      }),
+    });
+  });
+}
+
+module.exports = routes;

@@ -1,25 +1,35 @@
 // Require the framework and instantiate it
-const fastify = require('fastify')({ logger: true })
-//Plugin Register for assets
-fastify.register(require('fastify-static'), require('./config/static').public)
-//point of view for EJS
-fastify.register(require('point-of-view'),{
-  engine:{
-  ejs: require('ejs'),
+const fastify = require("fastify")({ logger: false });
+
+//Fastify env register
+if (process.env.NODE_ENV !== "production")
+  require("dotenv").config(require("./config/env").options.dotenv);
+
+// Register core plugins
+fastify.register(require("fastify-env"), {
+  ...require("./config/env").options,
+  dotenv: false,
+});
+fastify.register(require("fastify-postgres"), require("./config/postgres"));
+fastify.register(require("fastify-static"), require("./config/static").public);
+fastify.register(require("point-of-view"), {
+  engine: {
+    ejs: require("ejs"),
   },
-})
-// register ssr in route
-fastify.register(require('./route/ssr.js'))
-//refractory route
-fastify.register(require('./route/route.js'))
+});
+
+// Register custom routes (route included)
+fastify.register(require("./routes/static"));
+fastify.register(require("./routes/ssr"));
 
 // Run the server!
 const start = async () => {
   try {
-    await fastify.listen(process.env.PORT || 5000,'0.0.0.0')// this configuration for running server from fastify
+    await fastify.listen(process.env.PORT, "0.0.0.0");
   } catch (err) {
-    fastify.log.error(err)
-    process.exit(1)
+    fastify.log.error(err);
+    process.exit(1);
   }
-}
-start()
+};
+
+start();
