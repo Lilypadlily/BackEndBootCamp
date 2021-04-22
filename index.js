@@ -1,7 +1,7 @@
 // Require the framework and instantiate it
 const fastify = require("fastify")({ logger: false });
 
-//Fastify env register
+//modul def dari env bukan bawaan node js
 if (process.env.NODE_ENV !== "production")
   require("dotenv").config(require("./config/env").options.dotenv);
 
@@ -21,6 +21,7 @@ fastify.register(require("point-of-view"), {
 // Register custom routes (route included)
 fastify.register(require("./routes/static"));
 fastify.register(require("./routes/ssr"));
+fastify.register(require("./routes/api"),{prefix : "/api"});
 
 // Run the server!
 const start = async () => {
