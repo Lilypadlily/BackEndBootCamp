@@ -21,7 +21,7 @@ fastify.register(require("point-of-view"), {
 // Register custom routes (route included)
 fastify.register(require("./routes/static"));
 fastify.register(require("./routes/ssr"));
-fastify.register(require("./routes/api"),{prefix : "/api"});
+
 
 // Run the server!
 const start = async () => {
